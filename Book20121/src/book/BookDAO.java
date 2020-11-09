@@ -62,15 +62,15 @@ public class BookDAO {
 
 	public int getMaxNo() {
 		int num = 0;
-		Connection conn = null;
+		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		conn = getConnection();
+		
 		try {
-			pstmt = conn.prepareStatement("select max(bcode) num from book_tbl");
+			pstmt = conn.prepareStatement("select max(bcode) from book_tbl");
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				num = rs.getInt("num");
+				num = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,8 +80,25 @@ public class BookDAO {
 		return num + 1;
 	}
 
-	public void insertBoard(BookVO vo) {
-		// TODO Auto-generated method stub
+	public int insertBoard(BookVO vo) {
+		int num = 0;
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("insert into book_tbl values(?,?,?,?,?,?)");
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, conn, pstmt);
+		}
+		
+		return num;
 
 	}
 }

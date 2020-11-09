@@ -42,9 +42,15 @@ public class BookInsertController extends HttpServlet {
 		Date bdate = Date.valueOf(req.getParameter("bdate"));
 		// vo 객체 생성 -> 담기 -> DAO에서 메서드 처리
 		BookVO vo = new BookVO(bcode, btitle, bwriter, bpub, bprice, bdate);
-		instance.insertBoard(vo);
-		// 화면 출력 -> JSP 의 역할 (view 역할 -> view 페이지로 )
-		RequestDispatcher rd = req.getRequestDispatcher("/BoardList.do");
-		rd.forward(req, resp);
+		int temp = instance.insertBoard(vo);
+		
+//		if(temp > 0) {
+//			req.setAttribute("bcode", bcode);
+//			req.getRequestDispatcher("/view/memberInsertOutput.jsp").forward(req, resp);
+//			
+//		}else {
+//			req.setAttribute("error", "아이디 중복 오류 입니다.");
+//			req.getRequestDispatcher("/view/memberInsert.jsp").forward(req, resp);
+//		}
 	}
 }

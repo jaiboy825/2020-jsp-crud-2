@@ -18,15 +18,15 @@
 			</tr>
 			<tr>
 				<td>도서제목</td>
-				<td><input type="text" value="" name="btitle"></td>
+				<td><input type="text" value="" name="btitle" required></td>
 			</tr>
 			<tr>
 				<td>도서저자</td>
-				<td><input type="text" value="" name="bwriter"></td>
+				<td><input type="text" value="" name="bwriter" required></td>
 			</tr>
 			<tr>
 				<td>출판사코드</td>
-				<td><select name="bpub" >
+				<td><select name="bpub" required>
 						<option value="1001">양영디지털</option>
 						<option value="1002">북스미디어</option>
 						<option value="1003">한빛아카데미</option>
@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td>가격</td>
-				<td><input type="text" value="" name="bprice"></td>
+				<td><input type="text" value="" name="bprice" required></td>
 			</tr>
 			<tr>
 				<td>출간날짜</td>
