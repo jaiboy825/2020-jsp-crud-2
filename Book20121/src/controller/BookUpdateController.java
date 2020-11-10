@@ -17,8 +17,8 @@ import book.BookVO;
 /**
  * Servlet implementation class BookInsertController
  */
-@WebServlet("/BookInsert.do")
-public class BookInsertController extends HttpServlet {
+@WebServlet("/BookUpdate.do")
+public class BookUpdateController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -42,15 +42,15 @@ public class BookInsertController extends HttpServlet {
 		Date bdate = Date.valueOf(req.getParameter("bdate"));
 		// vo 객체 생성 -> 담기 -> DAO에서 메서드 처리
 		BookVO vo = new BookVO(bcode, btitle, bwriter, bpub, bprice, bdate);
-		int temp = dao.insertBoard(vo);
+		int temp = dao.updateBoard(vo);
 		
 		if(temp > 0) {
-			req.setAttribute("ok", "도서 등록 성공");
-			req.getRequestDispatcher("/insertBook.jsp").forward(req, resp);
+			req.setAttribute("ok", "도서 정보 수정 성공");
+			req.getRequestDispatcher("/updateBookPro.jsp").forward(req, resp);
 			
 		}else {
 			req.setAttribute("error", "아이디 중복 오류 입니다.");
-			req.getRequestDispatcher("/insertBook.jsp").forward(req, resp);
+			req.getRequestDispatcher("/updateBookPro.jsp").forward(req, resp);
 		}
 	}
 }

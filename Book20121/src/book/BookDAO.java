@@ -5,15 +5,6 @@ import java.util.ArrayList;
 
 public class BookDAO {
 
-	public static BookDAO instance = new BookDAO();
-
-	private BookDAO() {
-	}
-
-	public static BookDAO getInstance() {
-		return instance;
-	}
-
 	public Connection getConnection() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "hr";
@@ -28,44 +19,42 @@ public class BookDAO {
 		return conn;
 	}
 
-	public static void close(ResultSet rs, Connection conn, PreparedStatement pstmt) {
+	public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("rs");
+				System.out.println("rs.close() 오류 발생 : " + e);
 			}
 		}
+
+		close(conn, pstmt);
+	}
+
+	public static void close(Connection conn, PreparedStatement pstmt) {
 		if (pstmt != null) {
 			try {
 				pstmt.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("pstmt");
+				System.out.println("pstmt.close() 오류 발생 : " + e);
 			}
 		}
+
 		if (conn != null) {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("conn");
+				System.out.println("conn.close() 오류 발생 : " + e);
 			}
 		}
 	}
-
-	private static ArrayList<BookVO> list = new ArrayList<BookVO>();
 
 	public int getMaxNo() {
 		int num = 0;
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = conn.prepareStatement("select max(bcode) from book_tbl");
 			rs = pstmt.executeQuery();
@@ -75,30 +64,130 @@ public class BookDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs, conn, pstmt);
+			close(conn, pstmt, rs);
 		}
 		return num + 1;
 	}
 
 	public int insertBoard(BookVO vo) {
-		int num = 0;
+		int n = 0;
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = conn.prepareStatement("insert into book_tbl values(?,?,?,?,?,?)");
+			pstmt.setInt(1, vo.getBcode());
+			pstmt.setString(2, vo.getBtitle());
+			pstmt.setString(3, vo.getBwriter());
+			pstmt.setInt(4, vo.getBpub());
+			pstmt.setInt(5, vo.getBprice());
+			pstmt.setDate(6, vo.getBdate());
+			n = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt);
+		}
+
+		return n;
+
+	}
+
+	public ArrayList<BookVO> getList() {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
 		try {
-			pstmt = conn.prepareStatement("insert into book_tbl values(?,?,?,?,?,?)");
+			pstmt = conn.prepareStatement("select * from book_tbl order by bcode asc");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BookVO vo = new BookVO();
+				vo.setBcode(rs.getInt("bcode"));
+				vo.setBtitle(rs.getString("btitle"));
+				vo.setBwriter(rs.getString("bwriter"));
+				vo.setBpub(rs.getInt("bpub"));
+				vo.setBprice(rs.getInt("bprice"));
+				vo.setBdate(rs.getDate("bdate"));
+				list.add(vo);
+			}
+			System.out.println("책 목록 출력 완료");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("책 목록 출력 실패");
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+
+		return list;
+	}
+
+	public BookVO findUser(int bcode) {
+		BookVO vo = new BookVO();
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from book_tbl where bcode = ?");
+			pstmt.setInt(1, bcode);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				num = rs.getInt(1);
+				vo.setBcode(bcode);
+				vo.setBtitle(rs.getString("btitle"));
+				vo.setBwriter(rs.getString("bwriter"));
+				vo.setBpub(rs.getInt("bpub"));
+				vo.setBprice(rs.getInt("bprice"));
+				vo.setBdate(rs.getDate("bdate"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs, conn, pstmt);
+			close(conn, pstmt, rs);
+		}
+
+		return vo;
+	}
+
+	public int updateBoard(BookVO vo) {
+		int n = 0;
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = conn.prepareStatement("update book_tbl set btitle = ?, bwriter = ?, bpub = ?, bprice = ? where bcode = ?");
+			pstmt.setString(1, vo.getBtitle());
+			pstmt.setString(2, vo.getBwriter());
+			pstmt.setInt(3, vo.getBpub());
+			pstmt.setInt(4, vo.getBprice());
+			pstmt.setInt(5, vo.getBcode());
+			n = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt);
+		}
+
+		return n;
+	}
+	public int deleteBook(int bcode) {
+		int n = 0;
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("delete from book_tbl where bcode = ?");
+			pstmt.setInt(1, bcode);
+			n = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(conn, pstmt);
 		}
 		
-		return num;
-
+		return n;
 	}
 }

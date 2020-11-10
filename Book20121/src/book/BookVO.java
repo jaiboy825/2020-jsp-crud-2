@@ -10,6 +10,14 @@ public class BookVO {
 	private int bprice;
 	private Date bdate;
 
+	
+	
+	public BookVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public BookVO(int bcode, String btitle, String bwriter, int bpub, int bprice, Date bdate) {
 		super();
 		this.bcode = bcode;
@@ -19,6 +27,7 @@ public class BookVO {
 		this.bprice = bprice;
 		this.bdate = bdate;
 	}
+
 
 	public int getBcode() {
 		return bcode;
@@ -70,7 +79,7 @@ public class BookVO {
 
 	@Override
 	public String toString() {
-		return "BookVO [bcode=" + bcode + ", btitle=" + btitle + ", bwriter=" + bwriter + ", bpub=" + bpub + ", bprice="
+		return "20121전제 [bcode=" + bcode + ", btitle=" + btitle + ", bwriter=" + bwriter + ", bpub=" + bpub + ", bprice="
 				+ bprice + ", bdate=" + bdate + "]";
 	}
 

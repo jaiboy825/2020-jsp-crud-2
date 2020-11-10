@@ -5,12 +5,23 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
 <%
-	BookDAO instance = BookDAO.getInstance();
-	int bcode = instance.getMaxNo();
-	Date bdate = Date.valueOf(LocalDate.now());
+	BookDAO dao = new BookDAO();
+int bcode = dao.getMaxNo();
+Date bdate = Date.valueOf(LocalDate.now());
+
+String error = (String) request.getAttribute("error");
+if (error != null) {
+	out.print("<script>alert('" + error + "'); history.go(-1);</script>");
+}
+
+String ok = (String) request.getAttribute("ok");
+
+if (ok != null) {
+	out.print("<script>alert('" + ok + "'); location.href='/BookList.do'; </script>");
+}
 %>
 <div>
-	<form action="BookInsert" method="post">
+	<form action="/BookInsert.do" method="post">
 		<table border="2">
 			<tr>
 				<td>도서코드</td>
@@ -18,11 +29,13 @@
 			</tr>
 			<tr>
 				<td>도서제목</td>
-				<td><input type="text" value="" name="btitle" required></td>
+				<td><input type="text" value="" name="btitle" id="btitle"
+					required></td>
 			</tr>
 			<tr>
 				<td>도서저자</td>
-				<td><input type="text" value="" name="bwriter" required></td>
+				<td><input type="text" value="" name="bwriter" id="bwriter"
+					required></td>
 			</tr>
 			<tr>
 				<td>출판사코드</td>
@@ -35,16 +48,34 @@
 			</tr>
 			<tr>
 				<td>가격</td>
-				<td><input type="text" value="" name="bprice" required></td>
+				<td><input type="number" value="" name="bprice" id="bprice"
+					required></td>
 			</tr>
 			<tr>
 				<td>출간날짜</td>
-				<td><input type="text" value="<%=bdate %>" name="bdate" readonly></td>
+				<td><input type="text" value="<%=bdate%>" name="bdate" readonly></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" value="등록"><input type="reset" value="재작성"></td>
+				<td colspan="2"><input type="submit" value="등록" id="add"><input
+					type="reset" value="재작성"></td>
 			</tr>
 		</table>
+		<script type="text/javascript">
+		add.addEventListener("click", function() {
+			if (btitle.value.trim() == "") {
+				alert("책 제목이 입력되지 않았습니다.");
+				return
+			}
+			if (bwriter.value.trim() == "") {
+				alert("책 작가가 입력되지 않았습니다.");
+				return
+			}
+			if (bprice.value.trim() == "") {
+				alert("책 금액이 입력되지 않았습니다.");
+				return
+			}
+		});
+	</script>
 	</form>
 </div>
 
