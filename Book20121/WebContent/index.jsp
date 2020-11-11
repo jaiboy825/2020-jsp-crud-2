@@ -32,7 +32,14 @@
 <!-- update 구조 -->
 <!-- 먼저 updateBook.jsp?bcode=수정할 책의 bcode로 이동한다 -->
 <!-- updateBook.jsp에서 BookUpdateController로 bcode를 보낸다. /BookUpdate -->
-<!-- BookUpdateController로  -->
+<!-- BookUpdateController에서 받은 bcode로 dao에 findUser를 통해서 그 번호의 사용자를 찾는다 -->
+<!-- 찾은 사용자의 정보를 vo에 담아서 다시 updateBook.jsp -->
+<!-- 수정된 정보를 다시 BookUpdateController에서 받아서 dao에 updateBoard를 사용해서 업데이트한다-->
+<!-- update되면 /BookList.do로 이동 -->
+<!-------------------------------------------------------------------->
+<!-- delete 구조 -->
+<!-- 먼저 deleteBook.jsp 에 bcode를 담아서 이동-->
+<!-- confirm으로 삭제할지 결정을 받고 삭제한다면 /BookDelete.do에 보내서 삭제 시킴 -->
 
 
 

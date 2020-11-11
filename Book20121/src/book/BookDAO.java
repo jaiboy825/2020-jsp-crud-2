@@ -125,7 +125,7 @@ public class BookDAO {
 		return list;
 	}
 
-	public BookVO findUser(int bcode) {
+	public BookVO findBook(int bcode) {
 		BookVO vo = new BookVO();
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;

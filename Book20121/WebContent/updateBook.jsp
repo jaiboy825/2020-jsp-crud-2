@@ -17,7 +17,7 @@
 
 	int bcode = Integer.parseInt(request.getParameter("bcode"));
 	BookDAO dao = new BookDAO();
-	BookVO vo = dao.findUser(bcode);
+	BookVO vo = dao.findBook(bcode);
 
 	if (vo != null) {
 %>
