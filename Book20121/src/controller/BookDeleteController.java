@@ -25,16 +25,25 @@ public class BookDeleteController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doProcess(req, resp);
 	}
+
 	@Override
-		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doProcess(req, resp);
 	}
-	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		//한글 인코딩처리
+
+	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 한글 인코딩처리
 		req.setCharacterEncoding("utf-8");
-		int bcode = Integer.parseInt( req.getParameter("bcode"));
-		req.setAttribute("bcode", bcode);
-		req.getRequestDispatcher("/deleteBook.jsp").forward(req, resp);
+		int bcode = Integer.parseInt(req.getParameter("bcode"));
+		BookDAO dao = new BookDAO();
+		int n = dao.deleteBook(bcode);
+		
+		if (n > 0) {
+			req.setAttribute("ok", "도서 삭제 완료");
+		} else {
+			req.setAttribute("error", "도서 삭제 실패");
 		}
+		req.getRequestDispatcher("/deleteBook.jsp").forward(req, resp);
 	}
+}

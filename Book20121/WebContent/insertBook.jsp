@@ -11,7 +11,7 @@ Date bdate = Date.valueOf(LocalDate.now());
 
 String error = (String) request.getAttribute("error");
 if (error != null) {
-	out.print("<script>alert('" + error + "'); history.go(-1);</script>");
+	out.print("<script>alert('" + error + "');</script>");
 }
 
 String ok = (String) request.getAttribute("ok");

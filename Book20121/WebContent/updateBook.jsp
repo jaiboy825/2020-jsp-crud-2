@@ -4,10 +4,22 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
 <%
+	String error = (String) request.getAttribute("error");
+	if (error != null) {
+		out.print("<script>alert('" + error + "'); history.go(-1);</script>");
+	}
+
+	String ok = (String) request.getAttribute("ok");
+
+	if (ok != null) {
+		out.print("<script>alert('" + ok + "'); location.href='/BookList.do'; </script>");
+	}
+
 	int bcode = Integer.parseInt(request.getParameter("bcode"));
-BookDAO dao = new BookDAO();
-BookVO vo = dao.findUser(bcode);
-if (vo != null) {
+	BookDAO dao = new BookDAO();
+	BookVO vo = dao.findUser(bcode);
+
+	if (vo != null) {
 %>
 <div>
 	<form action="/BookUpdate.do" method="post">

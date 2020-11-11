@@ -8,7 +8,17 @@
 <%@ include file="header.jsp"%>
 <%
 	ArrayList<BookVO> list = (ArrayList<BookVO>) request.getAttribute("list");
-String pub = "";
+	String pub = "";
+	String error = (String) request.getAttribute("error");
+	if (error != null) {
+		out.print("<script>alert('" + error + "'); history.go(-1);</script>");
+	}
+
+	String ok = (String) request.getAttribute("ok");
+
+	if (ok != null) {
+		out.print("<script>alert('" + ok + "'); location.href='/BookList.do'; </scripsssssst>");
+	}
 %>
 <style>
 .container>table {
@@ -29,9 +39,9 @@ String pub = "";
 			</tr>
 			<%
 				if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
-					BookVO vo = new BookVO();
-					vo = list.get(i);
+					for (int i = 0; i < list.size(); i++) {
+						BookVO vo = new BookVO();
+						vo = list.get(i);
 			%>
 			<tr>
 				<td><a href="/updateBook.jsp?bcode=<%=vo.getBcode()%>"><%=vo.getBcode()%></a></td>
@@ -39,41 +49,43 @@ String pub = "";
 				<td><%=vo.getBwriter()%></td>
 				<%
 					switch (vo.getBpub()) {
-				case 1001:
-					pub = "양영디지털";
-					break;
-				case 1002:
-					pub = "북스미디어";
-					break;
-				case 1003:
-					pub = "한빛아카데미";
-					break;
-				case 1004:
-					pub = "이지스";
-					break;
-				}
+								case 1001 :
+									pub = "양영디지털";
+									break;
+								case 1002 :
+									pub = "북스미디어";
+									break;
+								case 1003 :
+									pub = "한빛아카데미";
+									break;
+								case 1004 :
+									pub = "이지스";
+									break;
+							}
 				%>
 				<td><%=pub%></td>
 				<%
 					int bprice = vo.getBprice();
-				DecimalFormat df = new DecimalFormat("###,###");
-				String price = df.format(bprice);
+							DecimalFormat df = new DecimalFormat("###,###");
+							String price = df.format(bprice);
 				%>
 				<td><%=price%></td>
 				<%
 					Date bdate = vo.getBdate();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일");
-				String date = sdf.format(bdate);
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일");
+							String date = sdf.format(bdate);
 				%>
 				<td><%=date%></td>
-				<td><a href="/BookDelete.do?bcode=<%=vo.getBcode()%>">삭제</a></td>
+				<td><a href="/deleteBook.jsp?bcode=<%=vo.getBcode()%>">삭제</a></td>
 			</tr>
 			<%
 				}
-			}
+				}
 			%>
 		</table>
-
+		<script type="text/javascript">
+			
+		</script>
 	</div>
 
 	<%@ include file="footer.jsp"%>

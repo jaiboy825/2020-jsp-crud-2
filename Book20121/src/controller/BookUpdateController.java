@@ -46,11 +46,11 @@ public class BookUpdateController extends HttpServlet {
 		
 		if(temp > 0) {
 			req.setAttribute("ok", "도서 정보 수정 성공");
-			req.getRequestDispatcher("/updateBookPro.jsp").forward(req, resp);
+			req.getRequestDispatcher("/updateBook.jsp").forward(req, resp);
 			
 		}else {
-			req.setAttribute("error", "아이디 중복 오류 입니다.");
-			req.getRequestDispatcher("/updateBookPro.jsp").forward(req, resp);
+			req.setAttribute("error", "에러 입니다.");
+			req.getRequestDispatcher("/updateBook.jsp").forward(req, resp);
 		}
 	}
 }

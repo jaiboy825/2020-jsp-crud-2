@@ -13,4 +13,4 @@ insert into book_tbl values(10103, '파이썬', '홍길동', 1004, 9000, '201910
 
 select * from book_tbl;
 
-drop table book_tbl;
+--drop table book_tbl;

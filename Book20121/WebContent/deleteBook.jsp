@@ -4,15 +4,27 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
 
+
 <%
-	int bcode = (Integer) request.getAttribute("bcode");
+	int bcode = Integer.parseInt(request.getParameter("bcode"));
+
+	String error = (String) request.getAttribute("error");
+	if (error != null) {
+		out.print("<script>alert('" + error + "'); location.href='/BookList.do';</script>");
+	}
+	String ok = (String) request.getAttribute("ok");
+	if (ok != null) {
+		out.print("<script>alert('" + ok + "'); location.href='/BookList.do'; </script>");
+	}
 %>
-<script type="text/javascript">
-	var result = confirm("정말 삭제하시겠습니까?");
-	if (result == true) {
-	} else if (result == false) {
-		location.href = "/index.jsp"
+
+<script>
+	let result = confirm("정말 삭제하시겠습니까?");
+	if(result) {
+		location.href = '/BookDelete.do?bcode=<%=bcode%>';
+	} else {
+		history.back();
 	}
 </script>
-<div></div>
+
 <%@ include file="footer.jsp"%>

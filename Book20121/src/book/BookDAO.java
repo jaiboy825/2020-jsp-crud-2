@@ -8,7 +8,7 @@ public class BookDAO {
 	public Connection getConnection() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "hr";
-		String password = "1234";
+		String password = "hr";
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
