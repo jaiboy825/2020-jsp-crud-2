@@ -12,7 +12,10 @@
 4.도서 조회/수정 프로그램을 작성한다.<br>
 5.도서 삭제 프로그램을 작성한다.<br>
 </div>
-<!-- 먼저 실행하기 전에 severs에 톰캣 modules에 들어가서 서버의 Path를 '/'로 바꿔준다 -->
+<!-- 먼저 실행하기 전에 severs에 modules에 들어가서 서버의 Path를 '/'로 바꿔주세요 -->
+<!-- 집의 JRE System Library 는 jdk-14.0.2라서 학교의 경우 변경 해주세요 -->
+<!-- alert 창의 경우 chrome 에서 실행 해주시면 감사하겠습니다 -->
+
 <!-- 기능 만들었던 순서대로 -->
 <!-- insert 구조 -->
 <!-- 먼저 입력 형식이 있는 insertBook.jsp 에 가서 보여주고  입력을 받으면 BookInsertController로 보내진다 /BookInsert.do라는 주소로-->
@@ -40,6 +43,8 @@
 <!-- delete 구조 -->
 <!-- 먼저 deleteBook.jsp 에 bcode를 담아서 이동-->
 <!-- confirm으로 삭제할지 결정을 받고 삭제한다면 /BookDelete.do에 보내서 삭제 시킴 -->
+<!-- 삭제가 성공할 경우 ok를 실패한 경우 error를 deleteBook.jsp로 보내서 확인 -->
+<!-- delete되면 /BookList.do로 이동 -->
 
 
 
